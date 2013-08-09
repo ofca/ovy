@@ -1,7 +1,24 @@
-(function (ctx, undefined) {
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">(function (ctx, undefined) {
 
-    /**
-     * A fast, elegant, powerful, and cross platform JavaScript OOP library.
+<span id='ovy'>    /**
+</span>     * A fast, elegant, powerful, and cross platform JavaScript OOP library.
      * Support statics, singleton, super call, private, mixins, inherits and more.
      * 
      * @class ovy
@@ -18,8 +35,8 @@
         return (prefix ? prefix.toString() : '') + (++AUTO_ID);
     };
 
-    /**
-     * Apply function.
+<span id='ovy-method-apply'>    /**
+</span>     * Apply function.
      *
      *     @example
      *     var defaults = { foo: 'foo', bar: 'bar' };
@@ -40,7 +57,7 @@
      * @return {Object}
      */
     ovy.apply = function (object, config, filter) {
-        if (object && config && typeof config === 'object') {
+        if (object &amp;&amp; config &amp;&amp; typeof config === 'object') {
             var key;
 
             for (key in config) {
@@ -54,18 +71,18 @@
     };
 
     ovy.apply(ovy, {
-        /**
-         * Test if variable is null, undefined or is empty string or is empty array.
+<span id='ovy-method-isEmpty'>        /**
+</span>         * Test if variable is null, undefined or is empty string or is empty array.
          * 
          * @param  {Mixed} value Value to test.
          * @param  {Boolean} allowEmptyString Allow string to be empty.
          * @return {Boolean} 
          */
         isEmpty: function (value, allowEmptyString) {
-            return (value === null) || (value === undefined) || (!allowEmptyString ? value === '' : false) || (ovy.isArray(value) && value.length === 0);
+            return (value === null) || (value === undefined) || (!allowEmptyString ? value === '' : false) || (ovy.isArray(value) &amp;&amp; value.length === 0);
         },
-        /**
-         * Returns true if passed value is Array, false otherwise.
+<span id='ovy-method-isArray'>        /**
+</span>         * Returns true if passed value is Array, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
@@ -73,35 +90,35 @@
         isArray: ('isArray' in Array) ? Array.isArray : function (value) {
             return toString.call(value) === '[object Array]';
         },
-        /**
-         * Returns true if passed value is Function, false otherwise.
+<span id='ovy-method-isFunction'>        /**
+</span>         * Returns true if passed value is Function, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
          */
         isFunction: function (value) {
-            return value && typeof value === 'function';
+            return value &amp;&amp; typeof value === 'function';
         },
-        /**
-         * Returns true if passed value is Object, false otherwise.
+<span id='ovy-method-isObject'>        /**
+</span>         * Returns true if passed value is Object, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
          */
         isObject: function (value) {
-            return value && typeof value === 'object';
+            return value &amp;&amp; typeof value === 'object';
         },
-        /**
-         * Returns true if passed value is simple Object, false otherwise.
+<span id='ovy-method-isSimpleObject'>        /**
+</span>         * Returns true if passed value is simple Object, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
          */
         isSimpleObject: function (value) {
-            return value instanceof Object && value.constructor === Object;
+            return value instanceof Object &amp;&amp; value.constructor === Object;
         },
-        /**
-         * Returns true if passed value is primitive (string, number, boolean), 
+<span id='ovy-method-isPrimitive'>        /**
+</span>         * Returns true if passed value is primitive (string, number, boolean), 
          * false otherwise.
          * 
          * @param  {Mixed} value Value to test.
@@ -112,26 +129,26 @@
 
             return type === 'string' || type === 'number' || type === 'boolean';
         },
-        /**
-         * Returns true if passed value is finite number, false otherwise.
+<span id='ovy-method-isNumber'>        /**
+</span>         * Returns true if passed value is finite number, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
          */
         isNumber: function (value) {
-            return typeof value === 'number' && isFinite(value);
+            return typeof value === 'number' &amp;&amp; isFinite(value);
         },
-        /**
-         * Returns true if passed value is finite numeric, false otherwise.
+<span id='ovy-method-isNumeric'>        /**
+</span>         * Returns true if passed value is finite numeric, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
          */
         isNumeric: function (value) {
-            return !isNaN(parseFloat(value)) && isFinite(value);
+            return !isNaN(parseFloat(value)) &amp;&amp; isFinite(value);
         },
-        /**
-         * Returns true if passed value is string, false otherwise.
+<span id='ovy-method-isString'>        /**
+</span>         * Returns true if passed value is string, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
@@ -139,8 +156,8 @@
         isString: function (value) {
             return typeof value === 'string';
         },
-        /**
-         * Returns true if passed value is boolean, false otherwise.
+<span id='ovy-method-isBoolean'>        /**
+</span>         * Returns true if passed value is boolean, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
@@ -148,8 +165,8 @@
         isBoolean: function (value) {
             return typeof value === 'boolean';
         },
-        /**
-         * Returns true if passed value is defined, false otherwise.
+<span id='ovy-method-isDefined'>        /**
+</span>         * Returns true if passed value is defined, false otherwise.
          * 
          * @param  {Mixed} value Value to test.
          * @return {Boolean}
@@ -157,8 +174,8 @@
         isDefined: function (value) {
             return typeof value !== 'undefined';
         },
-        /**
-         * Returns true if the passed value is iterable, false otherwise
+<span id='ovy-method-isIterable'>        /**
+</span>         * Returns true if the passed value is iterable, false otherwise
          * 
          * @param {Object} value The value to test
          * @return {Boolean}
@@ -166,10 +183,10 @@
         isIterable: function (value) {
             var type = typeof value,
                 checkLength = false;
-            if (value && type != 'string') {
+            if (value &amp;&amp; type != 'string') {
                 // Functions have a length property, so we need to filter them out
                 if (type == 'function') {
-                    // In Safari, NodeList/HTMLCollection both return "function" when using typeof, so we need
+                    // In Safari, NodeList/HTMLCollection both return &quot;function&quot; when using typeof, so we need
                     // to explicitly check them here.
 //                        if (Ext.isSafari) {
 //                            checkLength = value instanceof NodeList || value instanceof HTMLCollection;
@@ -183,8 +200,8 @@
     });
 
     ovy.apply(ovy, {
-        /**
-         * Copies all the properties of object to object if they don't already exists.
+<span id='ovy-method-applyIf'>        /**
+</span>         * Copies all the properties of object to object if they don't already exists.
          * @param  {Object} object Target object.
          * @param  {Object} config Source object
          * @param  {Array} filter Keys to omit.
@@ -213,14 +230,14 @@
                 cloneFn = ovy.clone,
                 object, key, value, sourceKey;
 
-            for (; i < ln; i++) {
+            for (; i &lt; ln; i++) {
                 object = arguments[i];
 
                 for (key in object) {
                     value = object[key];
-                    if (value && value.constructor === Object) {
+                    if (value &amp;&amp; value.constructor === Object) {
                         sourceKey = destination[key];
-                        if (sourceKey && sourceKey.constructor === Object) {
+                        if (sourceKey &amp;&amp; sourceKey.constructor === Object) {
                             mergeFn(sourceKey, value);
                         }
                         else {
@@ -264,7 +281,7 @@
                 }
             }
             // Object
-            else if (type === '[object Object]' && item.constructor === Object) {
+            else if (type === '[object Object]' &amp;&amp; item.constructor === Object) {
                 clone = {};
 
                 for (key in item) {
@@ -288,8 +305,8 @@
     function Base() {
     }
 
-    /**
-     * Define new class.
+<span id='ovy-method-define'>    /**
+</span>     * Define new class
      * 
      * @param  {String|Object} className Class name or class members (collection 
      * of class members in key-value pairs)
@@ -308,7 +325,7 @@
 
         var _extend = data.extend,
             Parent;
-        if (_extend && !ovy.isObject(_extend)) {
+        if (_extend &amp;&amp; !ovy.isObject(_extend)) {
             Parent = _extend;
         } else {
             Parent = Base;
@@ -430,7 +447,7 @@
         }
 
         if (inherits instanceof Array) {
-            for (i = 0, ln = inherits.length; i < ln; i++) {
+            for (i = 0, ln = inherits.length; i &lt; ln; i++) {
                 mixin(targetClass, null, inherits[i], targetPrototype);
             }
         }
@@ -451,7 +468,7 @@
         }
 
         if (mixins instanceof Array) {
-            for (i = 0, ln = mixins.length; i < ln; i++) {
+            for (i = 0, ln = mixins.length; i &lt; ln; i++) {
                 item = mixins[i];
                 name = item.prototype.mixinId || item.$mixinId;
                 if (!name) {
@@ -487,10 +504,10 @@
         }
 
         for (key in mixin) {
-            if (name && (key === 'mixins')) {
+            if (name &amp;&amp; (key === 'mixins')) {
                 ovy.merge(prototype.mixins, mixin[key]);
             }
-            else if (typeof prototype[key] == 'undefined' && key != 'mixinId') {
+            else if (typeof prototype[key] == 'undefined' &amp;&amp; key != 'mixinId') {
                 prototype[key] = mixin[key];
             }
         }
@@ -509,7 +526,7 @@
         return processInherits(targetClass, inherits);
     };
 
-    if (typeof module !== "undefined" && module.exports) {              // NodeJS/CommonJS
+    if (typeof module !== &quot;undefined&quot; &amp;&amp; module.exports) {              // NodeJS/CommonJS
         module.exports = ovy;
     } else {
         var _ovy = ctx.ovy,
@@ -526,4 +543,6 @@
         }
     }
 
-})(this, [][0]);
+})(this, [][0]);</pre>
+</body>
+</html>
