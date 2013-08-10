@@ -280,6 +280,29 @@
             var result = new TemplateClass();
             TemplateClass.prototype = null;
             return result;
+        },
+        ns: function() {
+            var root, i, len, ns, j, sublen, part;
+
+            for (i = 0, len = arguments.length; i < len; i++) {
+                root = ctx;
+                ns = arguments[i].split('.');
+
+                for (j = 0, sublen = ns.length; j < sublen; j++) {
+                    part = ns[j];
+
+                    if ( ! root[part]) {
+                        root[part] = {};
+                    }
+
+                    root = root[part];
+                }               
+            }
+        },
+        proxy: function(fn, scope) {
+            return function() {
+                fn.apply(scope, arguments);
+            }
         }
     });
 
