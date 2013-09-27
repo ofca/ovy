@@ -14,10 +14,6 @@
         CONFIG_RESERVED_KEYS = ['extend', 'constructor', 'statics', 'mixins', 'inherits'],
         TemplateClass = function () {};
 
-    function getAutoId(prefix) {
-        return (prefix ? prefix.toString() : '') + (++AUTO_ID);
-    };
-
     /**
      * Apply function.
      *
@@ -54,6 +50,15 @@
     };
 
     ovy.apply(ovy, {
+        /**
+         * Return unique numerical id.
+         * 
+         * @param  {String} prefix
+         * @return {String}
+         */
+        uid: function(prefix) {
+            return (prefix ? prefix.toString() : '') + (++AUTO_ID);
+        },
         /**
          * Test if variable is null, undefined or is empty string or is empty array.
          * 
