@@ -303,6 +303,8 @@
                     root = root[part];
                 }               
             }
+
+            return root;
         },
         proxy: function(fn, scope) {
             return function() {
@@ -311,13 +313,10 @@
         }
     });
 
-//        var ALL_RESERVED_KEYS = ovy.merge({}, CLASS_RESERVED_KEYS, CONFIG_RESERVED_KEYS);
-
-    function Base() {
-    }
+    function Base() {}
 
     /**
-     * Define new class.
+     * Defines new class.
      * 
      * @param  {String|Object} className Class name or class members (collection 
      * of class members in key-value pairs)
@@ -325,23 +324,10 @@
      * @return {Object}
      */
     function define(className, data) {
-        var hasClassName = ovy.isString(className);
-        if (!data) data = (hasClassName ? {} : className) || {};
+        data = ovy.isString(className) ? (data || {}) : className;
+        data.$className = className || null;
 
-        if (className) {
-            data.$classname = className;
-        } else {
-            data.$classname = null;
-        }
-
-        var _extend = data.extend,
-            Parent;
-        if (_extend && !ovy.isObject(_extend)) {
-            Parent = _extend;
-        } else {
-            Parent = Base;
-        }
-        return extend(Parent, data);
+        return extend(typeof data.extend == 'function' ? data.extend : Base, data);
     }
 
     function makeCtor(parent) {
@@ -353,42 +339,27 @@
         }
     }
 
-	function ofwrap(fn, argsize) {
-	    argsize = argsize ? Math.max(argsize, fn.length) : fn.length;
-	    var wrapper;
-	    switch (argsize) {
-	        case 0:
-	            wrapper = function () { fn.call(this); };
-	            break;
-	        case 1:
-	            wrapper = function (a) { fn.call(this, a); };
-	            break;
-	        case 2:
-	            wrapper = function (a1, a2) { fn.call(this, a1, a2); };
-	            break;
-	        case 3:
-	            wrapper = function (a1, a2, a3) { fn.call(this, a1, a2, a3); };
-	            break;
-	        case 4:
-	            wrapper = function (a1, a2, a3, a4) { fn.call(this, a1, a2, a3, a4); };
-	            break;
-	        case 5:
-	            wrapper = function (a1, a2, a3, a4, a5) { fn.call(this, a1, a2, a3, a4, a5); };
-	            break;
-	        case 6:
-	            wrapper = function (a1, a2, a3, a4, a5, a6) { fn.call(this, a1, a2, a3, a4, a5, a6); };
-	            break;
-	        case 7:
-	            wrapper = function (a1, a2, a3, a4, a5, a6, a7) { fn.call(this, a1, a2, a3, a4, a5, a6, a7); };
-	            break;
-	        case 8:
-	            wrapper = function (a1, a2, a3, a4, a5, a6, a7, a8) { fn.call(this, a1, a2, a3, a4, a5, a6, a7, a8); };
-	            break;
-	        default:
-	            wrapper = function () { fn.apply(this, arguments); };
-	    }
-	    return wrapper;
-	}
+    function ofwrap(fn) {
+        var Cls;
+        switch (fn.length) {
+            case 0:
+                Cls = function () { fn.call(this); };
+                break;
+            case 1:
+                Cls = function (a) { fn.call(this, a); };
+                break;
+            case 2:
+                Cls = function (a1, a2) { fn.call(this, a1, a2); };
+                break;
+            case 3:
+                Cls = function (a1, a2, a3) { fn.call(this, a1, a2, a3); };
+                break;
+            case 4:
+            default:
+                Cls = function () { fn.apply(this, arguments); };
+        }
+        return Cls;
+    }
 
     function extend(parentClass, data) {
         if (!data) {
@@ -411,10 +382,12 @@
         prototype.constructor = cls;
         cls.prototype = prototype;
 
-        // the '$super' property of class refers to its super prototype
+        // the '$super' property of class refers to its super prototype        
         cls.$super = parent;
+
         // the '$superclass' property of class refers to its super class
-        cls.$superclass = parentClass;
+        // cls.$superclass is for backward compatibility use cls.$parent instead
+        cls.$parent = cls.$superclass = parentClass;
 
         if (typeof body === 'object') {
             process(cls, body, prototype);
@@ -483,10 +456,10 @@
                 item = mixins[i];
                 name = item.prototype.mixinId || item.$mixinId;
                 if (!name) {
-                    name = item.$mixinId = getAutoId('mixin_');
+                    name = item.$mixinId = ovy.uid('mixin_');
                 }
 
-                mixin(targetClass, name, mixin, targetPrototype);
+                mixin(targetClass, name, item, targetPrototype);
             }
         }
         else {

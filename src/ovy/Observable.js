@@ -1,13 +1,16 @@
-(function(ctx) { "use strict";
+define('ovy/ObservableEvent', function() {
 
-    var ovy = ctx.ovy;
-
+    /**
+     * Observable class.
+     *
+     * @class ovy.ObservableEvent
+     */
     function ObservableEvent(o) {
         this.stopped = false;
         this.args = o.args || [];
     };
 
-    ObservableEvent.prototype = function() {
+    ObservableEvent.prototype = {
         constructor: ObservableEvent,
         stop: function() {
             this.stopped = true;
@@ -20,13 +23,35 @@
         me.events = {};
     };
 
+    return ObservableEvent;
+
+});
+
+define('ovy/Observable', ['ovy/ObservableEvent'], function(ObservableEvent) {
+
+    /**
+     * Observable class.
+     *
+     * @class ovy.Observable
+     * @abstract
+     */
+    function Observable() {};
+
     Observable.prototype = {
         constructor: Observable,
+        /**
+         * @property {Object} events List of events available in this component
+         * and attached listeners to them.
+         * @protected
+         * @readonly
+         */
+        events: {},
         /**
          * Adds event.
          * 
          * @param {String} name Event name.
-         * @return {nano.util.Observable}
+         * @private
+         * @return {ovy.Observable}
          */
         addEvent: function(name) {
             var me = this,
@@ -52,20 +77,12 @@
          * @param {Object} [o]  Additional options passed to event.
          * 
          * Additional configuration:
-         * 
-         * - **scope** : Object 
          *
-         *   The scope in which the handler function is executed.
-         *
-         * - **args** : Array 
-         *
-         *   Arguments passed to function.
-         *
-         * - **single** : Boolean 
+         * - **once** : Boolean 
          *
          *   Call listener only once, and remove them.
          *
-         * @return {nano.util.Observable}
+         * @return {this}
          */
         addListener: function(e, fn, scope, o) {
             if (this.events[e]) {
@@ -91,6 +108,13 @@
 
             return this;
         },
+        /**
+         * Fires specified event.
+         * 
+         * @param  {String} name Event name
+         * @param  {Array} args Arguments passed to listeners.
+         * @return {this}
+         */
         fireEvent: function(name, args) {
             var me = this,
                 evt = me.events[name],
@@ -125,6 +149,6 @@
         } // eo fireEvent
     };
 
-    ovy.Observable = Observable;
+    return Observable;
 
-})(this);
+});
